@@ -7,16 +7,16 @@
 ![step1_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step1_result.jpg)
 
 ![Этап 2](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/step2.py):
-- Подготовить массив данных для отрисовки, обновлять массив по таймеру
-- Отрисовать точки решетки на водной поверхности
-- Сделать анимацию. 
+- Подготовить массив данных для отрисовки, обновлять массив по таймеру;
+- Отрисовать точки решетки на водной поверхности;
+- Сделать анимацию;
 - Положение камеры считать фиксированным: камера смотрит на воду сверху, перпендикулярно поверхности.
 
 Уравнение плоской волны:
 
 ![\xi(x,t)=Acos(\omega t)=Acos(2\pi\nu t)](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Cxi%28x%2Ct%29%3DAcos%28%5Comega%20t%29%3DAcos%282%5Cpi%5Cnu%20t%29)
 
-**nwave** - количество волн
+**nwave** - количество волн.
 
 ![waveVector=nwave*\begin{bmatrix}
  wV_{11}& wV_{12}\\ 
