@@ -9,32 +9,24 @@ from vispy import app
 """
 
 """ Это исходник вершинного шейдера, он будет вызывается для каждой вершины (точки) в отрисовываемой сцене.
- Шейдеры пишутся на языке GLSL, который представляет собой C++ с рядом ограничений и расширений."""
-vert = ("""#version 120   
+ Шейдеры пишутся на языке GLSL, который представляет собой C++ с рядом ограничений и расширений.
+Рекомендуется установить последнюю координату gl_Position в 1 (запретить перспективу, так как карта двухмерная)"""
+vert = ("""#version 120
         attribute vec2 a_position;
         attribute float a_height;
-        
-        varying float v_directed_light;
-        attribute vec2 a_normal;
-        uniform vec3 u_sun_direction;
-        
-        void main (void) {           
-            vec3 normal=normalize(vec3(a_normal, -1));
-            v_directed_light=max(0,-dot(normal, u_sun_direction));
-            float z=(1-a_height)*0.5;
-            gl_Position = vec4(a_position.xy,a_height*z,z);
-            
+        varying float z;
+        void main (void) {
+            z=(1-a_height)*0.5;
+            gl_Position = vec4(a_position.xy,z,1.0);
         }"""
         )
 
 """ Это исходный текст шейдера фрагменов, он отвечает за определение цвета отображаемых на экране пикселя 
 (чуть сложнее, если разрешить смешивание цветов)."""
 frag = ("""#version 120
-        varying float v_directed_light;
-        uniform vec3 u_sun_color;
-        uniform vec3 u_ambient_color;
+        varying float z;  
         void main() {
-            vec3 rgb=clamp(u_sun_color*v_directed_light+u_ambient_color,0.0,1.0);
+            vec3 rgb=mix(vec3(1,0.5,0),vec3(0,0.5,1.0),z);
             gl_FragColor = vec4(rgb,1);
         }"""
         )
@@ -107,7 +99,7 @@ class Surface(object):
         # print("np.size(bottom_r)", np.size(bottom_r))
         return np.concatenate((horizontal, vertical), axis=0).astype(np.uint32)  # массив пар ближайших вершин
 
-    def triangulation(self):
+    def triangulation(self):  # step4
         """расчет индексов вершин треугольников"""
         a = np.indices((self._size[0] - 1, self._size[1] - 1))  # индексы всех точек A для каждого прямоугольника
         b = a + np.array([1, 0])[:, None, None]  # индексы всех точек B для каждого прямоугольника
@@ -125,38 +117,19 @@ class Surface(object):
         acd = np.concatenate((a_l[..., None], c_l[..., None], d_l[..., None]), axis=-1)
         return np.concatenate((abc, acd), axis=0).astype(np.uint32)  # массив объединенных треугольников ABC и ACD
 
-    def normal(self, t):  # step5
-        """расчет нормали к поверхности"""
-        x = np.linspace(-1, 1, self._size[0])[:, None]
-        y = np.linspace(-1, 1, self._size[1])[None, :]
-        grad = np.zeros(self._size + (2,), dtype=np.float32)
-        for n in range(self._amplitude.shape[0]):
-            dcos = -self._amplitude[n] * np.sin(self._phase[n] +
-                                                x * self._wave_vector[n, 0] + y * self._wave_vector[n, 1] +
-                                                t * self._angular_frequency[n])
-            grad[:, :, 0] += self._wave_vector[n, 0] * dcos
-            grad[:, :, 1] += self._wave_vector[n, 1] * dcos
-        return grad
 
 class Canvas(app.Canvas):
     """ холст """
     def __init__(self):
         """конструктор обьекта окна"""
         app.Canvas.__init__(self, title="step 4", size=(500, 500), vsync=True)
-
-        gloo.set_state(clear_color=(0, 0, 0, 1), depth_test=True, blend=False)  # step5
-
+        gloo.set_state(clear_color=(0, 0, 0, 1), depth_test=False, blend=False)
         self.program = gloo.Program(vert, frag)
         self.surface = Surface()  # обьект, который будет давать состояние поверхности
         self.program["a_position"] = self.surface.position()  # xy=const шейдеру,
 
-        sun = np.array([1, 0, 1], dtype=np.float32)  # step5
-        sun /= np.linalg.norm(sun)
-        self.program["u_sun_direction"] = sun
-        self.program["u_sun_color"] = np.array([0.5, 0.5, 0], dtype=np.float32)
-        self.program["u_ambient_color"] = np.array([0.2, 0.2, 0.5], dtype=np.float32)
+        self.triangles = gloo.IndexBuffer(self.surface.triangulation())  # step4
 
-        self.triangles = gloo.IndexBuffer(self.surface.triangulation())
         self.t = 0  # t - time
         self._timer = app.Timer('auto', connect=self.on_timer, start=True)
         self.activate_zoom()
@@ -171,10 +144,9 @@ class Canvas(app.Canvas):
     def on_draw(self, event):
         """перерисовка окна"""
         gloo.clear()
-        # step 5
         self.program["a_height"] = self.surface.height(self.t)  # пересчет высот для текущего времени
-        self.program["a_normal"] = self.surface.normal(self.t)
-        self.program.draw('triangles', self.triangles)
+
+        self.program.draw('triangles', self.triangles)  # step4
 
     def on_timer(self, event):
         """приращение времени с обновлением изображения"""
