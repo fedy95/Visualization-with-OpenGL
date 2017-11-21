@@ -92,7 +92,6 @@ class Surface(object):
         # print("bottom[0]", bottom[0])
         # print("np.size(bottom[0]", np.size(bottom[0]))
         # print("np.size(bottom_r)", np.size(bottom_r))
-
         return np.concatenate((horizontal, vertical), axis=0).astype(np.uint32)  # массив пар ближайших вершин
 
 
