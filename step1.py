@@ -24,10 +24,11 @@ frag = ("""#version 120
         }"""
         )
 
-""" холст """
+
 class Canvas(app.Canvas):
-    # конструктор обьекта окна.
+    """ холст """
     def __init__(self):
+        """конструктор обьекта окна"""
         app.Canvas.__init__(self, title="step 1", size=(300, 300), vsync=True)
         gloo.set_state(clear_color=(0, 0, 0, 1), depth_test=False, blend=False)
         self.program = gloo.Program(vert, frag)
@@ -35,16 +36,14 @@ class Canvas(app.Canvas):
         self.activate_zoom()
         self.show()
 
-    # установка размера окна
     def activate_zoom(self):
-        # размер окна size
+        """установка размера окна"""
         self.width, self.height = self.size
         print(self.width, self.height)
-        # размер окна в OpenGL
         gloo.set_viewport(0, 0, *self.physical_size)
 
-    # перерисовка окна .
     def on_draw(self, event):
+        """перерисовка окна"""
         gloo.clear()
         self.program.draw('points')
 

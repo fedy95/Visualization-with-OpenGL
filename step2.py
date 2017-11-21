@@ -1,12 +1,6 @@
 import numpy as np
 from vispy import gloo
 from vispy import app
-from vispy import *
-from moviepy import *
-# from vispy import app, scene
-# from vispy.gloo.util import _screenshot
-import imageio
-
 """
 2 этап. 
 Подготовить массив данных для отрисовки, обновлять массив по таймеру. 
@@ -34,32 +28,26 @@ frag = ("""#version 120
         }"""
         )
 
-""" объект состояния водной глади """
+
 class Surface(object):
-    # Конструктор получает размер генерируемого массива.
-    # Также конструктор Генерируется параметры нескольких плоских волн.
+    """ объект состояния водной глади """
     def __init__(self, size=(150, 200), nwave=5):
+        """конструктор обьекта окна"""
         self._size = size
         self._wave_vector = nwave * np.random.randn(nwave, 2)
-        # print("wave_vector", self._wave_vector)
         self._angular_frequency = np.random.randn(nwave) / nwave
-        # print("angular_frequency", self._angular_frequency)
         self._phase = 2 * np.pi * self._angular_frequency
-        print("phase", 2 * np.pi * np.random.rand(nwave))
         self._amplitude = np.random.rand(nwave) / nwave
-        print("_amplitude", np.random.rand(nwave) / nwave)
 
-    # Эта функция возвращает xy координаты точек.
-    # Точки образуют прямоугольную решетку в квадрате [0,1]x[0,1]
     def position(self):
+        """расчет координат точек прямоугольной решетки"""
         xy = np.empty(self._size + (2,), dtype=np.float32)
         xy[:, :, 0] = np.linspace(-1, 1, self._size[0])[:, None]
         xy[:, :, 1] = np.linspace(-1, 1, self._size[1])[None, :]
-        return xy
+        return xy  # xy координаты точек - прямоугольную решетку в квадрате [0,1]x[0,1]
 
-    # Эта функция возвращает массив высот водной глади в момент времени t.
-    # Диапазон изменения высоты от -1 до 1, значение 0 отвечает равновесному положению
     def height(self, t):
+        """расчет изменения высот водной глади в момент времени t"""
         x = np.linspace(-1, 1, self._size[0])[:, None]
         y = np.linspace(-1, 1, self._size[1])[None, :]
         z = np.zeros(self._size, dtype=np.float32)
@@ -67,16 +55,14 @@ class Surface(object):
             z[:, :] += self._amplitude[n] * np.cos(self._phase[n] +
                                                    x * self._wave_vector[n, 0] + y * self._wave_vector[n, 1] +
                                                    t * self._angular_frequency[n])
-        return z
-
-# class Surface(PlaneWaves):
-#     pass
+        return z  # массив высот водной глади в момент времени t
 
 
-""" холст """
+
 class Canvas(app.Canvas):
-    # конструктор обьекта окна.
+    """ холст """
     def __init__(self):
+        """конструктор обьекта окна"""
         app.Canvas.__init__(self, title="step 2", size=(500, 500), vsync=True)
         gloo.set_state(clear_color=(0, 0, 0, 1), depth_test=False, blend=False)
         self.program = gloo.Program(vert, frag)
@@ -87,25 +73,25 @@ class Canvas(app.Canvas):
         self.activate_zoom()
         self.show()
 
-    # установка размера окна
     def activate_zoom(self):
+        """установка размера окна"""
         self.width, self.height = self.size
         print(self.width, self.height)
         gloo.set_viewport(0, 0, *self.physical_size)
 
-    # перерисовка окна .
     def on_draw(self, event):
+        """перерисовка окна"""
         gloo.clear()
         self.program["a_height"] = self.surface.height(self.t)  # пересчет высот для текущего времени
         self.program.draw('points')
 
-    # приращение времени с обновлением изображения
     def on_timer(self, event):
+        """приращение времени с обновлением изображения"""
         self.t += 0.01
         self.update()
 
-    # данные о новом размере окна в OpenGL,
     def on_resize(self, event):
+        """данные о новом размере окна в OpenGL"""
         self.activate_zoom()
 
 
