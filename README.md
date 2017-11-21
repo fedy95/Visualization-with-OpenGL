@@ -4,6 +4,8 @@
 - Создать окно приложения, контекст OpenGL; 
 - Очистить фон и отрисовать одну точку.
 
+Результат:
+
 ![step1_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step1_result.jpg)
 
 ![Этап 2](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/step2.py):
@@ -34,8 +36,23 @@
 
 ![z=A*cos(\omega + x*waveVector+y*waveVector+t*\nu )](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20z%3DA*cos%28%5Comega%20&plus;%20x*waveVector&plus;y*waveVector&plus;t*%5Cnu%20%29)
 
+Результат:
+
 ![step2_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step2_result.gif)
 
+![Этап 3](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/step3.py):
+- Отрисовать отрезки, соединяющие соседние узлы решетки (wireframe);
+- Убедиться в корректности изображения перспективы.
+
+Изменения по сравнению с этапом 2 помечены в коде как # step3.
+
+Наглядная визуализация работы функции wireframe класса Surface:
+
+![step3_wireframe](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step3_wireframe.jpg)
+
+Результат:
+
+![step3_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step3_result.gif)
 
 ------
 with vispy
