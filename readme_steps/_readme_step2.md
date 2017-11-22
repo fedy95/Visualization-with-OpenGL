@@ -8,7 +8,7 @@
 - Сделать анимацию;
 - Положение камеры считать фиксированным: камера смотрит на воду сверху, перпендикулярно поверхности.
 
-### Теория
+## Теория
 
 Уравнение плоской волны:
 
@@ -32,6 +32,6 @@
 
 ![z=A*cos(\omega + x*waveVector+y*waveVector+t*\nu )](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20z%3DA*cos%28%5Comega%20&plus;%20x*waveVector&plus;y*waveVector&plus;t*%5Cnu%20%29)
 
-### Результат
+## Результат
 
 ![step2_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step2_result.gif)
