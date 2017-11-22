@@ -42,11 +42,11 @@ frag = ("""#version 120
 class Surface(object):
     """ объект состояния водной глади """
     def __init__(self, size=(150, 200), nwave=5):
-        """конструктор плоской волны"""
+        """конструктор обьекта окна"""
         self._size = size
         self._wave_vector = nwave * np.random.randn(nwave, 2)
         self._angular_frequency = np.random.randn(nwave) / nwave
-        self._phase = 2 * np.pi * self._angular_frequency
+        self._phase = np.pi * self._angular_frequency / 2
         self._amplitude = np.random.rand(nwave) / nwave
 
     def position(self):
@@ -62,9 +62,8 @@ class Surface(object):
         y = np.linspace(-1, 1, self._size[1])[None, :]
         z = np.zeros(self._size, dtype=np.float32)
         for n in range(self._amplitude.shape[0]):
-            z[:, :] += self._amplitude[n] * np.cos(self._phase[n] +
-                                                   x * self._wave_vector[n, 0] + y * self._wave_vector[n, 1] +
-                                                   t * self._angular_frequency[n])
+            z[:, :] += self._amplitude[n] * np.cos(x * self._wave_vector[n, 0] + y * self._wave_vector[n, 1] +
+                                                   t * self._angular_frequency[n] + self._phase[n])
         return z  # массив высот водной глади в момент времени t
 
     def wireframe(self):
