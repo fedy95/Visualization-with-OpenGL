@@ -10,14 +10,14 @@
     - vispy v0.4.0.
     
 ### Steps
-[Step 1](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step1.md);
-[Step 2](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step2.md);
-[Step 3](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step3.md);
-[Step 4](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step4.md);
-[Step 5](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step5.md);
-[-Step 6](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step6.md);
-[-Step 7](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step7.md);
-[-Step 8](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step8.md).
+- [Step 1](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step1.md);
+- [Step 2](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step2.md);
+- [Step 3](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step3.md);
+- [Step 4](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step4.md);
+- [Step 5](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step5.md);
+- [-Step 6](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step6.md);
+- [-Step 7](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step7.md);
+- [-Step 8](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/readme_steps/_readme_step8.md).
 
 #### Helpful links
 1. [Задание](https://alepoydes.github.io/introduction-to-numerical-simulation/practice/render/render.html).
