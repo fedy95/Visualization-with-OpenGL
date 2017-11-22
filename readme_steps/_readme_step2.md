@@ -1,4 +1,4 @@
-# Этап 1
+# Этап 2
 - [Оглавление](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/README.md);
 - [Код](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/step2.py).
 
