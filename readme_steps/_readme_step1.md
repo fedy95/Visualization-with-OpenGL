@@ -6,7 +6,7 @@
 - Создать окно приложения, контекст OpenGL; 
 - Очистить фон и отрисовать одну точку.
 
-### Теория
+## Теория
 
 Класс [Canvas](https://github.com/vispy/vispy/blob/master/vispy/app/canvas.py) - представление GUI элемента в контексте OpenGL.
 
@@ -50,7 +50,7 @@ Default key mapping to use. If 'interactive', escape and F11 will close the canv
 - **touch**;
 - **close**.
 
-### Результат
+## Результат
 
 ![step1_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step1_result.jpg)
 
