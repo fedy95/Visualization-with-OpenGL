@@ -1,5 +1,5 @@
 [задание](https://alepoydes.github.io/introduction-to-numerical-simulation/practice/render/render.html).
-
+[test](https://fedy95.github.io/Visualization-with-OpenGL/)
 ![Этап 1](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/step1.py): 
 - Создать окно приложения, контекст OpenGL; 
 - Очистить фон и отрисовать одну точку.
@@ -20,21 +20,21 @@
 
 **nwave** - количество волн.
 
-![waveVector=nwave*\begin{bmatrix}
- wV_{11}& wV_{12}\\ 
- \vdots& \vdots\\ 
- wV_{nwave1}& wV_{nwave2}
-\end{bmatrix}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20waveVector%3Dnwave*%5Cbegin%7Bbmatrix%7D%20wV_%7B11%7D%26%20wV_%7B12%7D%5C%5C%20%5Cvdots%26%20%5Cvdots%5C%5C%20wV_%7Bnwave1%7D%26%20wV_%7Bnwave2%7D%20%5Cend%7Bbmatrix%7D)
 
-![\nu=angularFrequency=\frac{\begin{bmatrix}aF_{11}&  \cdots &  aF_{1nwave}\end{bmatrix}}{nwave}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Cnu%3DangularFrequency%3D%5Cfrac%7B%5Cbegin%7Bbmatrix%7DaF_%7B11%7D%26%20%5Ccdots%20%26%20aF_%7B1nwave%7D%5Cend%7Bbmatrix%7D%7D%7Bnwave%7D)
+![waveVector=nwave*\begin{bmatrix} wV_{11}& wV_{12}\\  \vdots& \vdots\\  wV_{nwave1}& wV_{nwave2} \end{bmatrix}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20waveVector%3Dnwave*%5Cbegin%7Bbmatrix%7D%20wV_%7B11%7D%26%20wV_%7B12%7D%5C%5C%20%5Cvdots%26%20%5Cvdots%5C%5C%20wV_%7Bnwave1%7D%26%20wV_%7Bnwave2%7D%20%5Cend%7Bbmatrix%7D)
 
-![\omega=phase=2\pi\nu=2\pi*angularFrequency=2\pi*\begin{bmatrix}aF_{11}&  \cdots &  aF_{1nwave}\end{bmatrix}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Comega%3Dphase%3D2%5Cpi%5Cnu%3D2%5Cpi*angularFrequency%3D2%5Cpi*%5Cbegin%7Bbmatrix%7DaF_%7B11%7D%26%20%5Ccdots%20%26%20aF_%7B1nwave%7D%5Cend%7Bbmatrix%7D)
+![\omega =angularFrequency=\frac{\begin{bmatrix}aF_{11}&  \cdots &  aF_{1nwave}\end{bmatrix}}{nwave}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Cphi%20%3Dphase%3D%5Cfrac%7B%5Cpi*angularFrequency%7D%7B2%7D%3D%5Cfrac%7B%5Cpi*%5Cbegin%7Bbmatrix%7DaF_%7B11%7D%26%20%5Ccdots%20%26%20aF_%7B1nwave%7D%5Cend%7Bbmatrix%7D%7D%7B2%7D)
+
+![\phi =phase=\frac{\pi*angularFrequency}{2}=\frac{\pi*\begin{bmatrix}aF_{11}&  \cdots &  aF_{1nwave}\end{bmatrix}}{2}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Comega%3Dphase%3D2%5Cpi%5Cnu%3D2%5Cpi*angularFrequency%3D2%5Cpi*%5Cbegin%7Bbmatrix%7DaF_%7B11%7D%26%20%5Ccdots%20%26%20aF_%7B1nwave%7D%5Cend%7Bbmatrix%7D)
 
 ![A=amplutude=\frac{\begin{bmatrix}A_{11}&  \cdots &  A_{1nwave}\end{bmatrix}}{nwave}](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20A%3Damplutude%3D%5Cfrac%7B%5Cbegin%7Bbmatrix%7DA_%7B11%7D%26%20%5Ccdots%20%26%20A_%7B1nwave%7D%5Cend%7Bbmatrix%7D%7D%7Bnwave%7D)
 
-Уравнение высоты (z) волны в трехмерном пространстве:
+Для упрощения предположим, что колебания поверхности образуются суммой плоских волн, где случайными параметрами выступают подсчитанные выше амлитуда An, угловая частота omega, фаза fi и волновой вектор kn заданный как массив со значениями в промежутке от -1 до 1.
 
-![z=A*cos(\omega + x*waveVector+y*waveVector+t*\nu )](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20z%3DA*cos%28%5Comega%20&plus;%20x*waveVector&plus;y*waveVector&plus;t*%5Cnu%20%29)
+Таким образом, уравнение высоты (z) волны в трехмерном пространстве:
+
+![\left\{\begin{matrix}h(x;y;t)=z\\ k_{n,x}=x\\ k_{n,y}=y\\ 
+h(x;y;t)=\sum_{n}^{N}A_n*cos(k_{n,x}*waveVector+k_{n,y}*waveVector+\omega*t+\phi)\\ \end{matrix}\right.](http://latex.codecogs.com/svg.latex?%5Cfn_jvn%20%5Cleft%5C%7B%5Cbegin%7Bmatrix%7D%20h%28x%3By%3Bt%29%3Dz%5C%5C%20k_%7Bn%2Cx%7D%3Dx%5C%5C%20k_%7Bn%2Cy%7D%3Dy%5C%5C%20h%28x%3By%3Bt%29%3D%5Csum_%7Bn%7D%5E%7BN%7DA_n*cos%28k_%7Bn%2Cx%7D*waveVector&plus;k_%7Bn%2Cy%7D*waveVector&plus;%5Comega*t&plus;%5Cphi%29%5C%5C%20%5Cend%7Bmatrix%7D%5Cright.)
 
 Результат:
 
