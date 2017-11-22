@@ -14,4 +14,4 @@
 
 ## Результат
 
-![step3_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step3_result.gif
+![step3_result](https://github.com/fedy95/Visualization-with-OpenGL/blob/master/images/step3_result.gif)
